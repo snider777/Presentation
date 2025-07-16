@@ -64,7 +64,7 @@
   <div id="backgroundImage"></div>
   <audio id="bgMusic" src="could.mp3" preload="auto"></audio>
   <div id="scrollContainer">
-    <div id="textoImagen" style="color:#c8ff00; font-weight:600; margin-top:10px; min-height:30px;"></div>
+    <div id="textoImagen" style="color:#000000; font-weight:600; margin-top:10px; min-height:30px;"></div>
     <div id="dedicatoria"></div>
   </div>
 
@@ -262,7 +262,11 @@
           indexLetraImagen++;
           tiempoEscrituraImagen = millis();
         }
-        textoImagen.textContent = textoVisibleImagen;
+       let htmlImg = "";
+for(let i = 0; i < textoVisibleImagen.length; i++) {
+  htmlImg += `<span style="color:#c8ff00; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff">${textoVisibleImagen[i]}</span>`;
+}
+textoImagen.innerHTML = htmlImg;
 
         let tiempoPasado = millis() - tiempoInicioImagen;
         let current = secuenciaImagenes[indiceImagenActual];
