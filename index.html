@@ -82,21 +82,15 @@
     const secuenciaImagenes = [
       { src: "inge.jpg", texto: "COMENZARÉ CON UNA BREVE EXPLICACIÓN DEL TEMA ...", duracion: 6000 },
       { src: "mapa1.jpg", texto: "Y ESPERO QUE LO ENTIENDAN :D", duracion: 8000 },
-      { src: "www.jpg", texto: `COORDENADAS GEOGRÁFICAS:
-Las coordenadas geográficas se basan en latitud y longitud para ubicar cualquier punto en la superficie terrestre. En Perú, su uso es fundamental para:
-- Ubicación y localización precisa
-- Cartografía y geografía
-- Referencias oficiales
-- Navegación aérea y marítima`, duracion: 17000 },
-      { src: "utm.jpg", texto: `COORDENADAS UTM (Universal Transversal de Mercator):
-El sistema UTM es una proyección cartográfica que divide la superficie terrestre en zonas, usando coordenadas planas (metros), lo que facilita el trabajo a escalas regionales o locales y es muy usado en:
-- Topografía e ingeniería
-- Sistemas de Información Geográfica (SIG)
-- Cartografía nacional
-- Gestión de recursos`, duracion: 17000 },
+      { src: "www.jpg", texto: `COORDENADAS GEOGRÁFICAS:\nLas coordenadas geográficas se basan en latitud y longitud para ubicar cualquier punto en la superficie terrestre. En Perú, su uso es fundamental para:\n- Ubicación y localización precisa\n- Cartografía y geografía\n- Referencias oficiales\n- Navegación aérea y marítima`, duracion: 17000 },
+      { src: "utm.jpg", texto: `COORDENADAS UTM (Universal Transversal de Mercator):\nEl sistema UTM es una proyección cartográfica que divide la superficie terrestre en zonas, usando coordenadas planas (metros), lo que facilita el trabajo a escalas regionales o locales y es muy usado en:\n- Topografía e ingeniería\n- Sistemas de Información Geográfica (SIG)\n- Cartografía nacional\n- Gestión de recursos`, duracion: 17000 },
       { src: "n.jpg", texto: "", duracion: 5 }
     ];
     let tiempoInicioImagen = 0;
+    let textoVisibleImagen = "";
+    let indexLetraImagen = 0;
+    let tiempoEscrituraImagen = 0;
+    const velocidadEscrituraImagen = 30;
 
     let mostrarDedicatoria = false;
     let textoBase = `Espero les haya quedado claro así que continuemos :D ...`;
@@ -189,8 +183,10 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
           mostrarSecuenciaImagenes = true;
           tiempoInicioImagen = millis();
           indiceImagenActual = 0;
+          textoVisibleImagen = "";
+          indexLetraImagen = 0;
+          tiempoEscrituraImagen = millis();
           document.getElementById("backgroundImage").style.backgroundImage = `url(${secuenciaImagenes[0].src})`;
-          textoImagen.textContent = secuenciaImagenes[0].texto;
           dedicatoriaElem.textContent = "";
           crearParticulas();
         }
@@ -212,9 +208,11 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
     }
 
     function draw() {
-      clear(); // ✅ Limpia el canvas sin bloquear el fondo
-
+      clear();
       moverYdibujarParticulas();
+
+      stroke(255);
+      strokeWeight(2);
 
       if(!mostrarSecuenciaImagenes && !mostrarDedicatoria){
         textAlign(CENTER, CENTER);
@@ -259,6 +257,13 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
         dedicatoriaElem.textContent = "";
 
       } else if(mostrarSecuenciaImagenes){
+        if(millis() - tiempoEscrituraImagen > velocidadEscrituraImagen && indexLetraImagen < secuenciaImagenes[indiceImagenActual].texto.length){
+          textoVisibleImagen += secuenciaImagenes[indiceImagenActual].texto[indexLetraImagen];
+          indexLetraImagen++;
+          tiempoEscrituraImagen = millis();
+        }
+        textoImagen.textContent = textoVisibleImagen;
+
         let tiempoPasado = millis() - tiempoInicioImagen;
         let current = secuenciaImagenes[indiceImagenActual];
 
@@ -274,9 +279,11 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
             crearParticulas();
           } else {
             tiempoInicioImagen = millis();
+            textoVisibleImagen = "";
+            indexLetraImagen = 0;
+            tiempoEscrituraImagen = millis();
             let next = secuenciaImagenes[indiceImagenActual];
             document.getElementById("backgroundImage").style.backgroundImage = `url(${next.src})`;
-            textoImagen.textContent = next.texto;
           }
         }
 
@@ -301,7 +308,7 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
 
         let html = "";
         for(let i=0; i<textoVisible.length; i++){
-          html += `<span style="color:${coloresPorLetra[i]}">${textoVisible[i]}</span>`;
+          html += `<span style="color:${coloresPorLetra[i]}; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff">${textoVisible[i]}</span>`;
         }
         dedicatoriaElem.innerHTML = html;
       }
