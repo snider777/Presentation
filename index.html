@@ -80,17 +80,19 @@
     let indiceImagenActual = 0;
 
     const secuenciaImagenes = [
-      { src: "inge.jpg", texto: "COMENZARÉ CON UNA BREVE EXPLICACIÓN DEL TEMA ...", duracion: 6000 },
-      { src: "mapa1.jpg", texto: "Y ESPERO QUE LO ENTIENDAN :D", duracion: 8000 },
+      { src: "inge.jpg", texto: "COMENZARÉ CON UNA BREVE EXPLICACIÓN DEL TEMA ...", duracion: 55000 },
+      { src: "mapa1.jpg", texto: "Y ESPERO QUE LO ENTIENDAN :D", duracion: 5500 },
       { src: "www.jpg", texto: `COORDENADAS GEOGRÁFICAS:
 Las coordenadas geográficas se basan en latitud y longitud para ubicar cualquier punto en la superficie terrestre. 
 En Perú, su uso es fundamental para:
+
   - Ubicación y localización precisa
   - Cartografía y geografía
   - Referencias oficiales
   - Navegación aérea y marítima`, duracion: 17000 },
       { src: "utm.jpg", texto: `COORDENADAS UTM (Universal Transversal de Mercator):
 El sistema UTM es una proyección cartográfica que divide la superficie terrestre en zonas, usando coordenadas planas (metros), lo que facilita el trabajo a escalas regionales o locales y es muy usado en:
+
   - Topografía e ingeniería
   - Sistemas de Información Geográfica (SIG)
   - Cartografía nacional
@@ -280,7 +282,7 @@ for (let i = 0; i < textoVisibleImagen.length; i++) {
   if (letra === "\n") {
     htmlImg += "<br>";
   } else {
-    htmlImg += `<span style="color:#c8ff00; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000">${letra}</span>`;
+    htmlImg += `<span style="color:#ffffff; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000">${letra}</span>`;
   }
 }
 textoImagen.innerHTML = htmlImg;
