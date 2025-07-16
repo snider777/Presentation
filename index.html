@@ -36,10 +36,14 @@
       min-height: 32px;
     }
     #imagenDisplay {
-      max-width: 80vw;
-      max-height: 60vh;
-      border-radius: 10px;
-      box-shadow: 0 0 20px #ff4da6;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 1;
+}
     }
     canvas {
       position: fixed;
