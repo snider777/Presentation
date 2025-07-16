@@ -64,12 +64,12 @@
   <div id="backgroundImage"></div>
   <audio id="bgMusic" src="could.mp3" preload="auto"></audio>
   <div id="scrollContainer">
-    <div id="textoImagen" style="color:#ff00ff; font-weight:600; margin-top:10px; min-height:30px;"></div>
+    <div id="textoImagen" style="color:#c8ff00; font-weight:600; margin-top:10px; min-height:30px;"></div>
     <div id="dedicatoria"></div>
   </div>
 
   <script>
-    let frases = ["En fin ...", "Comencemos ..."];
+    let frases = ["EN FIN ...", "COMENCEMOS :D ..."];
     let clickCount = 0;
     let fraseIndex = 0;
     let gotas = [];
@@ -80,21 +80,21 @@
     let indiceImagenActual = 0;
 
     const secuenciaImagenes = [
-      { src: "inge.jpg", texto: "Comenzaré con una breve explicación del tema", duracion: 6000 },
-      { src: "mapa1.jpg", texto: "Y espero que lo entiendan", duracion: 8000 }
+      { src: "inge.jpg", texto: "COMENZARÉ CON UNA BREVE EXPLICACIÓN DEL TEMA ...", duracion: 6000 },
+      { src: "mapa1.jpg", texto: "Y ESPERO QUE LO ENTIENDAN :D", duracion: 8000 }
     ];
     let tiempoInicioImagen = 0;
 
     let mostrarDedicatoria = false;
-    let textoBase = `Y comencemos ... 
-Coordenadas Geográficas
+    let textoBase = `Y COMENCEMOS :) ... 
+COORDENADAS GEOGRÁFICAS:
 Las coordenadas geográficas se basan en latitud y longitud para ubicar cualquier punto en la superficie terrestre. En Perú, su uso es fundamental para:
 - Ubicación y localización precisa
 - Cartografía y geografía
 - Referencias oficiales
 - Navegación aérea y marítima
 
-Coordenadas UTM (Universal Transversal de Mercator)
+COORDENADAS UTM (Universal Transversal de Mercator):
 El sistema UTM es una proyección cartográfica que divide la superficie terrestre en zonas, usando coordenadas planas (metros), lo que facilita el trabajo a escalas regionales o locales y es muy usado en:
 - Topografía e ingeniería
 - Sistemas de Información Geográfica (SIG)
