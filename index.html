@@ -58,10 +58,26 @@
   <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.min.js"></script>
 </head>
 <body>
+  <div id="backgroundImage"></div>
+
+  #backgroundImage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  opacity: 1;
+  transition: background-image 1s ease;
+}
+
   <audio id="bgMusic" src="could.mp3" preload="auto"></audio>
   <div id="scrollContainer">
     <!-- Imagen que cambia según estado -->
-    <img id="imagenDisplay" src="" alt="" style="display:none" />
+    
     <div id="textoImagen" style="color:#ff4da6; font-weight:600; margin-top:10px; min-height:30px;"></div>
     <div id="dedicatoria"></div>
   </div>
@@ -192,8 +208,8 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
           tiempoInicioImagen = millis();
           indiceImagenActual = 0;
           // Inicializar primera imagen
-          imagenDisplay.src = secuenciaImagenes[0].src;
-          imagenDisplay.style.display = "block";
+          document.getElementById("backgroundImage").style.backgroundImage = `url(${secuenciaImagenes[indiceImagenActual].src})`;
+
           textoImagen.textContent = secuenciaImagenes[0].texto;
           dedicatoriaElem.textContent = "";
           crearParticulas();
