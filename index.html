@@ -13,7 +13,6 @@
       color: white;
       font-family: 'Poppins', sans-serif;
     }
-
     #backgroundImage {
       position: fixed;
       top: 0;
@@ -23,17 +22,14 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      z-index: 0;
+      z-index: -1;
       opacity: 1;
       transition: background-image 1s ease;
     }
-
     #scrollContainer {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       overflow-y: auto;
       pointer-events: none;
       display: flex;
@@ -44,10 +40,7 @@
       padding: 40px;
       font-size: 20px;
       z-index: 2;
-      background-color: rgba(0, 0, 0, 0.4);
-      border-radius: 20px;
     }
-
     #dedicatoria {
       margin-top: 20px;
       font-size: 20px;
@@ -55,14 +48,12 @@
       max-width: 800px;
       min-height: 32px;
     }
-
     canvas {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100vw !important;
       height: 100vh !important;
-      z-index: 1;
+      z-index: 0;
       pointer-events: none;
       display: block;
     }
@@ -76,15 +67,18 @@
     <div id="textoImagen" style="color:#ff4da6; font-weight:600; margin-top:10px; min-height:30px;"></div>
     <div id="dedicatoria"></div>
   </div>
+
   <script>
     let frases = ["En fin ...", "Comencemos ..."];
     let clickCount = 0;
     let fraseIndex = 0;
     let gotas = [];
     let particulas = [];
+    let particulasLluviaActiva = true;
 
     let mostrarSecuenciaImagenes = false;
     let indiceImagenActual = 0;
+
     const secuenciaImagenes = [
       { src: "inge.jpg", texto: "Comenzaré con una breve explicación del tema", duracion: 6000 },
       { src: "mapa1.jpg", texto: "Y espero que lo entiendan", duracion: 8000 }
@@ -106,6 +100,7 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
 - Sistemas de Información Geográfica (SIG)
 - Cartografía nacional
 - Gestión de recursos`;
+
     let textoVisible = "";
     let indexLetra = 0;
     let tiempoEscritura = 0;
@@ -131,7 +126,7 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
       }
     }
 
-    function hexToRgb(hex) {
+    function hexToRgb(hex){
       const res = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return res ? {
         r: parseInt(res[1], 16),
@@ -140,14 +135,15 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
       } : null;
     }
 
-    function moverYdibujarParticulas() {
-      for (let p of particulas) {
+    function moverYdibujarParticulas(){
+      for(let p of particulas){
         p.x += p.dx;
         p.y += p.dy;
-        if (p.x < 0 || p.x > width) p.dx *= -1;
-        if (p.y < 0 || p.y > height) p.dy *= -1;
+        if(p.x < 0 || p.x > width) p.dx *= -1;
+        if(p.y < 0 || p.y > height) p.dy *= -1;
+
         const c = hexToRgb(p.color);
-        if (c) {
+        if(c){
           fill(c.r, c.g, c.b, p.alpha);
         } else {
           fill(255, p.alpha);
@@ -159,8 +155,9 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
 
     function setup() {
       createCanvas(windowWidth, windowHeight);
-      document.querySelector("canvas").style.width = "100vw";
-      document.querySelector("canvas").style.height = "100vh";
+      let c=document.querySelector("canvas");
+      c.style.width = "100vw";
+      c.style.height = "100vh";
       textSize(26);
       textAlign(CENTER, CENTER);
       textFont('Poppins');
@@ -169,25 +166,26 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
 
     function windowResized() {
       resizeCanvas(windowWidth, windowHeight);
-      document.querySelector("canvas").style.width = "100vw";
-      document.querySelector("canvas").style.height = "100vh";
       crearParticulas();
     }
 
     function mousePressed() {
-      if (clickCount === 0) {
-        document.getElementById("bgMusic").play();
+      if(clickCount === 0){
+        const audio = document.getElementById("bgMusic");
+        audio.play();
       }
+
       clickCount++;
 
-      if (!mostrarSecuenciaImagenes && !mostrarDedicatoria) {
-        if (clickCount % 2 === 0) {
+      if(!mostrarSecuenciaImagenes && !mostrarDedicatoria){
+        if(clickCount % 2 === 0){
           fraseIndex = (fraseIndex + 1) % frases.length;
-          for (let g of gotas) {
+          for(let g of gotas){
             g.texto = frases[fraseIndex];
           }
         }
-        if (clickCount >= 30) {
+
+        if(clickCount >= 30){
           mostrarSecuenciaImagenes = true;
           tiempoInicioImagen = millis();
           indiceImagenActual = 0;
@@ -197,14 +195,14 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
           crearParticulas();
         }
 
-        for (let i = 0; i < 20; i++) {
+        for(let i=0; i < 20; i++){
           let ang = random(TWO_PI);
-          let speed = random(2, 6);
+          let speed = random(2,6);
           gotas.push({
             x: mouseX,
             y: mouseY,
-            dx: cos(ang) * speed,
-            dy: sin(ang) * speed,
+            dx: cos(ang)*speed,
+            dy: sin(ang)*speed,
             texto: frases[fraseIndex],
             alpha: 255,
             explosion: true
@@ -214,33 +212,36 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
     }
 
     function draw() {
-      background(0, 100);
+      clear(); // ✅ Limpia el canvas sin bloquear el fondo
+
       moverYdibujarParticulas();
 
-      if (!mostrarSecuenciaImagenes && !mostrarDedicatoria) {
+      if(!mostrarSecuenciaImagenes && !mostrarDedicatoria){
         textAlign(CENTER, CENTER);
         textSize(24);
-        if (frameCount % 8 === 0) {
+
+        if(frameCount % 8 === 0){
           gotas.push({
             x: random(width),
             y: -30,
-            speed: random(2, 4),
+            speed: random(2,4),
             alpha: 255,
             texto: frases[fraseIndex],
             explosion: false
           });
         }
 
-        for (let i = gotas.length - 1; i >= 0; i--) {
+        for(let i = gotas.length - 1; i >= 0; i--){
           let g = gotas[i];
           let c = hexToRgb(random(coloresTexto));
-          if (c) {
+          if(c){
             fill(c.r, c.g, c.b, g.alpha);
           } else {
             fill(255, g.alpha);
           }
           text(g.texto, g.x, g.y);
-          if (g.explosion) {
+
+          if(g.explosion){
             g.x += g.dx;
             g.y += g.dy;
             g.alpha -= 5;
@@ -248,7 +249,8 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
             g.y += g.speed;
             g.alpha -= 1.5;
           }
-          if (g.alpha <= 0 || g.y > height + 50) {
+
+          if(g.alpha <= 0 || g.y > height + 50){
             gotas.splice(i, 1);
           }
         }
@@ -256,15 +258,13 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
         textoImagen.textContent = "";
         dedicatoriaElem.textContent = "";
 
-      } else if (mostrarSecuenciaImagenes) {
+      } else if(mostrarSecuenciaImagenes){
         let tiempoPasado = millis() - tiempoInicioImagen;
         let current = secuenciaImagenes[indiceImagenActual];
-        document.getElementById("backgroundImage").style.backgroundImage = `url(${current.src})`;
-        textoImagen.textContent = current.texto;
 
-        if (tiempoPasado >= current.duracion) {
+        if(tiempoPasado >= current.duracion){
           indiceImagenActual++;
-          if (indiceImagenActual >= secuenciaImagenes.length) {
+          if(indiceImagenActual >= secuenciaImagenes.length){
             mostrarSecuenciaImagenes = false;
             mostrarDedicatoria = true;
             textoVisible = "";
@@ -280,30 +280,27 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
           }
         }
 
-      } else if (mostrarDedicatoria) {
-        textoImagen.textContent = "";
-
-        if (millis() - tiempoEscritura > velocidadEscritura && indexLetra < textoBase.length) {
+      } else if(mostrarDedicatoria){
+        if(millis() - tiempoEscritura > velocidadEscritura && indexLetra < textoBase.length){
           textoVisible += textoBase[indexLetra];
           indexLetra++;
           tiempoEscritura = millis();
         }
 
-        while (coloresPorLetra.length < textoVisible.length) {
+        while(coloresPorLetra.length < textoVisible.length){
           coloresPorLetra.push(random(coloresTexto));
         }
-        while (coloresPorLetra.length > textoVisible.length) {
+        while(coloresPorLetra.length > textoVisible.length){
           coloresPorLetra.pop();
         }
-
-        if (frameCount % 4 === 0) {
-          for (let i = 0; i < coloresPorLetra.length; i++) {
+        if(frameCount % 4 === 0){
+          for(let i=0; i<coloresPorLetra.length; i++){
             coloresPorLetra[i] = random(coloresTexto);
           }
         }
 
         let html = "";
-        for (let i = 0; i < textoVisible.length; i++) {
+        for(let i=0; i<textoVisible.length; i++){
           html += `<span style="color:${coloresPorLetra[i]}">${textoVisible[i]}</span>`;
         }
         dedicatoriaElem.innerHTML = html;
