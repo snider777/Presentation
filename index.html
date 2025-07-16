@@ -274,8 +274,14 @@ El sistema UTM es una proyección cartográfica que divide la superficie terrest
           tiempoEscrituraImagen = millis();
         }
        let htmlImg = "";
-for(let i = 0; i < textoVisibleImagen.length; i++) {
-  htmlImg += `<span style="color:#c8ff00; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000">${textoVisibleImagen[i]}</span>`;
+htmlImg = "";
+for (let i = 0; i < textoVisibleImagen.length; i++) {
+  const letra = textoVisibleImagen[i];
+  if (letra === "\n") {
+    htmlImg += "<br>";
+  } else {
+    htmlImg += `<span style="color:#c8ff00; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000">${letra}</span>`;
+  }
 }
 textoImagen.innerHTML = htmlImg;
 
